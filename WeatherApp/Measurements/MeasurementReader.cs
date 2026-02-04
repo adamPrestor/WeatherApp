@@ -70,6 +70,7 @@ namespace WeatherApp.Measurements
                 city.SetAverage();
             }
 
+            // Debug utility to measure reading time
             stopwatch.Stop();
             Console.WriteLine(stopwatch.ElapsedMilliseconds);
 

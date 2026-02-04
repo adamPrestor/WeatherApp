@@ -47,7 +47,7 @@
     public class CityDataAverageTemperatureViewModel
     {
         public string Name { get; set; } = "";
-        public double? AverageTemperature { get; set; }
+        public double? AverageTemperature { get; set; } 
     }
 
     public class CityDataViewModel : CityDataAverageTemperatureViewModel
