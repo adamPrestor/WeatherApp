@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using System.Globalization;
-using System.Runtime.CompilerServices;
 using WeatherApp.Models;
 
 namespace WeatherApp.Measurements
@@ -63,25 +62,6 @@ namespace WeatherApp.Measurements
             {
                 city.SetAverage();
             }
-
-            // Unoptimal version -- first draft
-            //foreach (var line in File.ReadAllLines(filePath).Select(line => line.Split(';')))
-            //{
-            //    if (line.Length != 2) continue;
-
-            //    var (city, temperature) = (line[0], double.Parse(line[1], CultureInfo.InvariantCulture));
-
-            //    var existingCity = cities.GetValueOrDefault(city);
-
-            //    if (existingCity is null)
-            //    {
-            //        City cityData = new(city);
-
-            //        existingCity = cities[city] = cityData;
-            //    }
-
-            //    existingCity.AddTemperature(temperature);
-            //}
 
             stopwatch.Stop();
             Console.WriteLine(stopwatch.ElapsedMilliseconds);

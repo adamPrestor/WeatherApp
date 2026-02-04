@@ -1,13 +1,24 @@
 ﻿namespace WeatherApp.Models
 {
-    public class City(string name)
+    public class City
     {
-        public string Name { get; private set; } = name;
+        public string Name { get; private set; }
         private double TemperatureSum { get; set; }
         private int TemperatureCount { get; set; }
         public double AverageTemperature { get; private set; }
         public double MaxTemperature { get; private set; } = double.MinValue;
         public double MinTemperature { get; private set; } = double.MaxValue;
+
+        public City(string name)
+        {
+            Name = name;
+        }
+
+        public City(string name, double temperature)
+        {
+            Name = name;
+            AddTemperature(temperature);
+        }
 
         public void AddTemperature(double temperature)
         {

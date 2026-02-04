@@ -1,13 +1,10 @@
-﻿
-using WeatherApp.Models;
-
-namespace WeatherApp.Measurements
+﻿namespace WeatherApp.Models
 {
-    public class MeasurementHostedService : IHostedService
+    public class InMemoryDbInitHostedService : IHostedService
     {
         readonly IInMemoryDb _db;
 
-        public MeasurementHostedService(IInMemoryDb db)
+        public InMemoryDbInitHostedService(IInMemoryDb db)
         {
             _db = db;
         }

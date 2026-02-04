@@ -1,4 +1,3 @@
-using WeatherApp.Measurements;
 using WeatherApp.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +9,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IInMemoryDb, InMemoryDb>();
-builder.Services.AddHostedService<MeasurementHostedService>();
+builder.Services.AddHostedService<InMemoryDbInitHostedService>();
 
 var app = builder.Build();
 
