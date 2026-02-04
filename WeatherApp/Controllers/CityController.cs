@@ -17,13 +17,13 @@ namespace WeatherApp.Controllers
         [HttpGet]
         async public Task<IEnumerable<CityDataViewModel>> List()
         {
-            return _db.Cities.Select(c => c.Value.ToViewModel());
+            return _db.CitiesData.Select(c => c.Value.ToViewModel());
         }
 
         [HttpGet("{name}")]
         async public Task<CityDataViewModel?> Get(string name)
         {
-            var city = _db.Cities.GetValueOrDefault(name);
+            var city = _db.CitiesData.GetValueOrDefault(name);
             return city?.ToViewModel();
         }
 
@@ -32,7 +32,7 @@ namespace WeatherApp.Controllers
             [FromQuery] double? largerThan,
             [FromQuery] double? smallerThan)
         {
-            var cities = _db.Cities.Select(c => c.Value);
+            var cities = _db.CitiesData.Select(c => c.Value);
 
             if (largerThan is not null)
             {

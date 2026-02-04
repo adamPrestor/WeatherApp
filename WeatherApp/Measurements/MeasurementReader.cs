@@ -6,30 +6,37 @@ namespace WeatherApp.Measurements
 {
     public class MeasurementReader
     {
-        private static readonly string _filePath = "Assets/measurements.txt";
+        private static readonly string _assetsPath = "Assets";
+        private static readonly string _filePath = $"measurements.txt";
 
-        private static string FilePath()
-        {
-            string root = Directory.GetCurrentDirectory();
-            return $"{root}/{_filePath}";
-        }
+        public static string AssetsPath { get => Path.GetFullPath($"{Directory.GetCurrentDirectory()}/{_assetsPath}");  }
+        public static string FilePath { get => Path.GetFullPath($"{AssetsPath}/{_filePath}"); }
 
-        public static Dictionary<string, CityData> Read()
+        public static Dictionary<string, CityData>? Read()
         {
             var cities = new Dictionary<string, CityData>();
 
-            string filePath = FilePath();
+            string filePath = FilePath;
 
             Debug.WriteLine($"Reading measurements from: {filePath}");
             Stopwatch stopwatch = Stopwatch.StartNew();
 
-            using var stream = new FileStream(
-                filePath,
-                FileMode.Open,
-                FileAccess.Read,
-                FileShare.Read,
-                bufferSize: 4096,
-                useAsync: true);
+            FileStream? stream;
+
+            try
+            {
+                stream = new FileStream(
+                    filePath,
+                    FileMode.Open,
+                    FileAccess.Read,
+                    FileShare.Read,
+                    bufferSize: 4096,
+                    useAsync: true);
+            } catch (Exception ex)
+            {
+                Debug.WriteLine($"Error opening file: {ex.Message}");
+                return null;
+            }
 
             using var reader = new StreamReader(stream);
 
@@ -69,7 +76,7 @@ namespace WeatherApp.Measurements
             return cities;
         }
 
-        public static async Task<Dictionary<string, CityData>> ReadAsync()
+        public static async Task<Dictionary<string, CityData>?> ReadAsync()
         {
             return await Task.Run(() => Read());
         }

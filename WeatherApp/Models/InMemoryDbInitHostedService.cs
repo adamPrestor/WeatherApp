@@ -18,7 +18,6 @@
 
         public async Task StopAsync(CancellationToken cancellationToken)
         {
-            throw new NotImplementedException();
         }
     }
 }
