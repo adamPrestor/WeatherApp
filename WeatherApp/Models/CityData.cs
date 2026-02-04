@@ -1,20 +1,20 @@
 ﻿namespace WeatherApp.Models
 {
-    public class City
+    public class CityData
     {
         public string Name { get; private set; }
         private double TemperatureSum { get; set; }
         private int TemperatureCount { get; set; }
-        public double AverageTemperature { get; private set; }
-        public double MaxTemperature { get; private set; } = double.MinValue;
-        public double MinTemperature { get; private set; } = double.MaxValue;
+        public double? AvgTemperature { get; private set; }
+        public double? MaxTemperature { get; private set; }
+        public double? MinTemperature { get; private set; }
 
-        public City(string name)
+        public CityData(string name)
         {
             Name = name;
         }
 
-        public City(string name, double temperature)
+        public CityData(string name, double temperature)
         {
             Name = name;
             AddTemperature(temperature);
@@ -27,12 +27,12 @@
 
             //AverageTemperature = TemperatureSum / TemperatureCount;
 
-            if (temperature > MaxTemperature)
+            if (MaxTemperature is null || temperature > MaxTemperature)
             {
                 MaxTemperature = temperature;
             }
 
-            if (temperature < MinTemperature)
+            if (MinTemperature is null || temperature < MinTemperature)
             {
                 MinTemperature = temperature;
             }
@@ -40,41 +40,41 @@
 
         public void SetAverage()
         {
-            AverageTemperature = TemperatureSum / TemperatureCount;
+            AvgTemperature = TemperatureSum / TemperatureCount;
         }
     }
 
-    public class CityAverageTemperatureViewModel
+    public class CityDataAverageTemperatureViewModel
     {
         public string Name { get; set; } = "";
-        public double AverageTemperature { get; set; }
+        public double? AverageTemperature { get; set; }
     }
 
-    public class CityViewModel : CityAverageTemperatureViewModel
+    public class CityDataViewModel : CityDataAverageTemperatureViewModel
     {
-        public double MaxTemperature { get; set; }
-        public double MinTemperature { get; set; }
+        public double? MaxTemperature { get; set; }
+        public double? MinTemperature { get; set; }
     }
 
-    public static class CityExtensions
+    public static class CityDataExtensions
     {
-        public static CityViewModel ToViewModel(this City model)
+        public static CityDataViewModel ToViewModel(this CityData model)
         {
             return new()
             {
                 Name = model.Name,  
-                AverageTemperature = model.AverageTemperature,
+                AverageTemperature = model.AvgTemperature,
                 MinTemperature = model.MinTemperature,
                 MaxTemperature = model.MaxTemperature,
             };
         }
 
-        public static CityAverageTemperatureViewModel ToAverageTemperatureViewModel(this City model)
+        public static CityDataAverageTemperatureViewModel ToAverageTemperatureViewModel(this CityData model)
         {
             return new()
             {
                 Name = model.Name,
-                AverageTemperature = model.AverageTemperature
+                AverageTemperature = model.AvgTemperature
             };
         }
     }

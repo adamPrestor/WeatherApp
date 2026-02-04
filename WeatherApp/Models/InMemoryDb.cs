@@ -6,7 +6,7 @@ public interface IInMemoryDb
     /// <summary>
     /// Collection of city data.
     /// </summary>
-    Dictionary<string, City> Cities { get; }
+    Dictionary<string, CityData> Cities { get; }
     /// <summary>
     /// Fetch data from the source and populate the in-memory database.
     /// </summary>
@@ -14,7 +14,7 @@ public interface IInMemoryDb
 }
 public class InMemoryDb : IInMemoryDb
 {
-    public Dictionary<string, City> Cities { get; private set; } = [];
+    public Dictionary<string, CityData> Cities { get; private set; } = [];
 
     public async Task Fetch()
     {

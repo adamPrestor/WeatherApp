@@ -14,9 +14,9 @@ namespace WeatherApp.Measurements
             return $"{root}/{_filePath}";
         }
 
-        public static Dictionary<string, City> Read()
+        public static Dictionary<string, CityData> Read()
         {
-            var cities = new Dictionary<string, City>();
+            var cities = new Dictionary<string, CityData>();
 
             string filePath = FilePath();
 
@@ -49,7 +49,7 @@ namespace WeatherApp.Measurements
 
                     if (existingCity is null)
                     {
-                        City cityData = new(city);
+                        CityData cityData = new(city);
 
                         existingCity = cities[city] = cityData;
                     }
@@ -69,7 +69,7 @@ namespace WeatherApp.Measurements
             return cities;
         }
 
-        public static async Task<Dictionary<string, City>> ReadAsync()
+        public static async Task<Dictionary<string, CityData>> ReadAsync()
         {
             return await Task.Run(() => Read());
         }

@@ -15,20 +15,20 @@ namespace WeatherApp.Controllers
         }
 
         [HttpGet]
-        async public Task<IEnumerable<CityViewModel>> List()
+        async public Task<IEnumerable<CityDataViewModel>> List()
         {
             return _db.Cities.Select(c => c.Value.ToViewModel());
         }
 
         [HttpGet("{name}")]
-        async public Task<CityViewModel?> Get(string name)
+        async public Task<CityDataViewModel?> Get(string name)
         {
             var city = _db.Cities.GetValueOrDefault(name);
             return city?.ToViewModel();
         }
 
         [HttpGet("average")]
-        async public Task<IEnumerable<CityAverageTemperatureViewModel>> GetListOfAverages(
+        async public Task<IEnumerable<CityDataAverageTemperatureViewModel>> GetListOfAverages(
             [FromQuery] double? largerThan,
             [FromQuery] double? smallerThan)
         {
@@ -36,12 +36,12 @@ namespace WeatherApp.Controllers
 
             if (largerThan is not null)
             {
-                cities = cities.Where(c => c.AverageTemperature > largerThan);
+                cities = cities.Where(c => c.AvgTemperature > largerThan);
             }
 
             if (smallerThan is not null)
             {
-                cities = cities.Where(c => c.AverageTemperature < smallerThan);
+                cities = cities.Where(c => c.AvgTemperature < smallerThan);
             }
 
             return cities.Select(c => c.ToAverageTemperatureViewModel());
