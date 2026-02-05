@@ -14,7 +14,7 @@ namespace WeatherApp.Controllers
             _db = db;
         }
 
-        [HttpGet("recalculate")]
+        [HttpGet("Recalculate")]
         async public Task Recalculate() 
         {
             await _db.Fetch();

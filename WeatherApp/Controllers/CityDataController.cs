@@ -37,7 +37,7 @@ namespace WeatherApp.Controllers
             return city?.ToViewModel();
         }
 
-        [HttpGet("average")]
+        [HttpGet("Average")]
         async public Task<IEnumerable<CityDataAverageTemperatureViewModel>> GetListOfAverages(
             [FromQuery] AverageCityDataFilter filter)
         {
