@@ -32,7 +32,7 @@ namespace WeatherApp.Controllers
         [HttpGet("{name}")]
         async public Task<CityDataViewModel?> Get(string name)
         {
-            var city = _db.CitiesData.GetValueOrDefault(name);
+            CityData city = _db.CitiesData.GetValueOrDefault(name, new(""));
 
             return city?.ToViewModel();
         }
@@ -43,11 +43,11 @@ namespace WeatherApp.Controllers
         {
             var cities = _db.CitiesData.Select(c => c.Value);
 
-            if (filter.LargerThan is not null)
-                cities = cities.Where(c => c.AvgTemperature > filter.LargerThan);
+            if (filter.GreaterThen is not null)
+                cities = cities.Where(c => c.AvgTemperature > filter.GreaterThen);
 
-            if (filter.SmallerThan is not null)
-                cities = cities.Where(c => c.AvgTemperature < filter.SmallerThan);
+            if (filter.LowerThen is not null)
+                cities = cities.Where(c => c.AvgTemperature < filter.LowerThen);
 
             return cities.Select(c => c.ToAverageTemperatureViewModel());
         }
@@ -61,7 +61,7 @@ namespace WeatherApp.Controllers
 
     public class AverageCityDataFilter
     {
-        public double? LargerThan { get; set; }
-        public double? SmallerThan { get; set; }
+        public double? GreaterThen { get; set; }
+        public double? LowerThen { get; set; }
     }
 }
