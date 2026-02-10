@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using WeatherApp.Models;
+using WeatherApp.Repozitories;
 
 namespace WeatherApp.Controllers
 {
@@ -7,61 +8,30 @@ namespace WeatherApp.Controllers
     [ApiController]
     public class CityDataController : ControllerBase
     {
-        readonly IInMemoryDb _db;
+        readonly ICityDataRepozitory _cityDataRepozitory;
 
-        public CityDataController(IInMemoryDb db)
+        public CityDataController(ICityDataRepozitory cityDataRepozitory)
         {
-            _db = db;
+            _cityDataRepozitory = cityDataRepozitory;
         }
 
         [HttpGet]
         async public Task<IEnumerable<CityDataViewModel>> List([FromQuery] CityDataPagination filter)
         {
-            var cities = _db.CitiesData.Select(c => c.Value);
-
-            if (filter.PageNumber is not null && filter.PageSize is not null)
-            {
-                cities = cities
-                    .Skip((filter.PageNumber.Value - 1) * filter.PageSize.Value)
-                    .Take(filter.PageSize.Value);
-            }
-
-            return cities.Select(c => c.ToViewModel());
+            return (await _cityDataRepozitory.GetPaginated(filter)).Select(c => c.ToViewModel());
         }
 
         [HttpGet("{name}")]
-        async public Task<CityDataViewModel?> Get(string name)
+        async public Task<CityDataViewModel> Get(string name)
         {
-            CityData city = _db.CitiesData.GetValueOrDefault(name, new(""));
-
-            return city?.ToViewModel();
+            return (await _cityDataRepozitory.GetByName(name)).ToViewModel();
         }
 
         [HttpGet("Average")]
         async public Task<IEnumerable<CityDataAverageTemperatureViewModel>> GetListOfAverages(
-            [FromQuery] AverageCityDataFilter filter)
+            [FromQuery] CityDataFilter filter)
         {
-            var cities = _db.CitiesData.Select(c => c.Value);
-
-            if (filter.GreaterThen is not null)
-                cities = cities.Where(c => c.AvgTemperature > filter.GreaterThen);
-
-            if (filter.LowerThen is not null)
-                cities = cities.Where(c => c.AvgTemperature < filter.LowerThen);
-
-            return cities.Select(c => c.ToAverageTemperatureViewModel());
+            return (await _cityDataRepozitory.GetFiltered(filter)).Select(c => c.ToAverageTemperatureViewModel());
         }
-    }
-
-    public class CityDataPagination
-    {
-        public int? PageSize { get; set; }
-        public int? PageNumber { get; set; }
-    }
-
-    public class AverageCityDataFilter
-    {
-        public double? GreaterThen { get; set; }
-        public double? LowerThen { get; set; }
-    }
+    }    
 }

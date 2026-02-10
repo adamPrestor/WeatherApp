@@ -1,4 +1,5 @@
 using WeatherApp.Models;
+using WeatherApp.Repozitories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +13,9 @@ builder.Services.AddSwaggerGen();
 // In-Memory Database
 builder.Services.AddSingleton<IInMemoryDb, InMemoryDb>();
 builder.Services.AddHostedService<InMemoryDbInitHostedService>();
+
+// Repozitories
+builder.Services.AddScoped<ICityDataRepozitory, CityDataRepozitory>();
 
 var app = builder.Build();
 

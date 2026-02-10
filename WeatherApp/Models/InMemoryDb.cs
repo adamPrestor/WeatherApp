@@ -12,6 +12,7 @@ public interface IInMemoryDb
     /// </summary>
     Task Fetch();
 }
+
 public class InMemoryDb : IInMemoryDb
 {
     public Dictionary<string, CityData> CitiesData { get; private set; } = [];
