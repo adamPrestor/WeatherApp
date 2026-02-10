@@ -1,3 +1,4 @@
+using WeatherApp.Adapters;
 using WeatherApp.Models;
 using WeatherApp.Repozitories;
 
@@ -16,6 +17,7 @@ builder.Services.AddHostedService<InMemoryDbInitHostedService>();
 
 // Repozitories
 builder.Services.AddScoped<ICityDataRepozitory, CityDataRepozitory>();
+builder.Services.AddScoped<ICityDataAdapter, CityDataAdapter>();
 
 var app = builder.Build();
 
