@@ -1,4 +1,5 @@
 ﻿using WeatherApp.Models;
+using WeatherApp.ViewModels;
 
 namespace WeatherApp.Adapters
 {

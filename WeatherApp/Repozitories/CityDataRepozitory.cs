@@ -51,10 +51,12 @@ namespace WeatherApp.Repozitories
         {
             var cities = await GetAll();
 
-            if (pagination.PageNumber is not null && pagination.PageSize is not null)
+            int pageNumber = pagination.PageNumber ?? 1;
+
+            if (pagination.PageSize is not null)
             {
                 cities = cities
-                    .Skip((pagination.PageNumber.Value - 1) * pagination.PageSize.Value)
+                    .Skip((pageNumber - 1) * pagination.PageSize.Value)
                     .Take(pagination.PageSize.Value);
             }
 

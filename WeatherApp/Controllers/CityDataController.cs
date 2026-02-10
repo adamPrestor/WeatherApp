@@ -1,7 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+
 using WeatherApp.Adapters;
-using WeatherApp.Models;
 using WeatherApp.Repozitories;
+using WeatherApp.ViewModels;
 
 namespace WeatherApp.Controllers
 {
@@ -19,9 +20,9 @@ namespace WeatherApp.Controllers
         }
 
         [HttpGet]
-        async public Task<IEnumerable<CityDataViewModel>> List([FromQuery] CityDataPagination filter)
+        async public Task<IEnumerable<CityDataViewModel>> List([FromQuery] CityDataPagination pagination)
         {
-            var cities = await _cityDataRepozitory.GetPaginated(filter);
+            var cities = await _cityDataRepozitory.GetPaginated(pagination);
             return _cityDataAdapter.ToViewModel(cities);
         }
 
