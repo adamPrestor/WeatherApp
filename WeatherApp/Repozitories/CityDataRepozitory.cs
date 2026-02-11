@@ -1,4 +1,5 @@
-﻿using WeatherApp.Models;
+﻿using WeatherApp.Commands;
+using WeatherApp.Models;
 
 namespace WeatherApp.Repozitories
 {
@@ -16,14 +17,14 @@ namespace WeatherApp.Repozitories
         /// <param name="pagination">An object that specifies the pagination settings, including page size and page number. Must not be null.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains an enumerable collection of city
         /// data for the requested page. The collection is empty if no cities match the pagination criteria.</returns>
-        Task<IEnumerable<CityData>> GetPaginated(CityDataPagination pagination);
+        Task<IEnumerable<CityData>> GetPaginated(CityDataPaginationCommand pagination);
         /// <summary>
         /// Asynchronously retrieves a collection of city data that matches the specified filter criteria.
         /// </summary>
         /// <param name="filter">An object that defines the filtering criteria to apply when selecting city data. Cannot be null.</param>
         /// <returns>A task that represents the asynchronous operation. The task result contains an enumerable collection of city
         /// data objects that satisfy the filter. The collection is empty if no cities match the criteria.</returns>
-        Task<IEnumerable<CityData>> GetFiltered(CityDataFilter filter);
+        Task<IEnumerable<CityData>> GetFiltered(CityDataFilterCommand filter);
         /// <summary>
         /// Asynchronously retrieves city data for the specified city name.
         /// </summary>
@@ -47,23 +48,21 @@ namespace WeatherApp.Repozitories
             return _db.CitiesData.Select(c => c.Value);
         }
 
-        public async Task<IEnumerable<CityData>> GetPaginated(CityDataPagination pagination)
+        public async Task<IEnumerable<CityData>> GetPaginated(CityDataPaginationCommand pagination)
         {
             var cities = await GetAll();
-
-            int pageNumber = pagination.PageNumber ?? 1;
 
             if (pagination.PageSize is not null)
             {
                 cities = cities
-                    .Skip((pageNumber - 1) * pagination.PageSize.Value)
+                    .Skip((pagination.PageNumber - 1) * pagination.PageSize.Value)
                     .Take(pagination.PageSize.Value);
             }
 
             return cities;
         }
 
-        public async Task<IEnumerable<CityData>> GetFiltered(CityDataFilter filter)
+        public async Task<IEnumerable<CityData>> GetFiltered(CityDataFilterCommand filter)
         {
             var cities = await GetAll();
 
@@ -84,17 +83,5 @@ namespace WeatherApp.Repozitories
         {
             return _db.CitiesData.GetValueOrDefault(cityName, new(""));
         }
-    }
-
-    public class CityDataPagination
-    {
-        public int? PageSize { get; set; }
-        public int? PageNumber { get; set; }
-    }
-
-    public class CityDataFilter
-    {
-        public double? AverageGreaterThen { get; set; }
-        public double? AverageLowerThen { get; set; }
     }
 }
