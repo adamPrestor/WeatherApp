@@ -1,5 +1,5 @@
 using WeatherApp.Adapters;
-using WeatherApp.Models;
+using WeatherApp.HoistedServices;
 using WeatherApp.Repozitories;
 using WeatherApp.Validators;
 

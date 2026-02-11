@@ -1,4 +1,4 @@
-﻿namespace WeatherApp.Models
+﻿namespace WeatherApp.HoistedServices
 {
     public class InMemoryDbInitHostedService : IHostedService
     {
