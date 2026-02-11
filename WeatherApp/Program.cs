@@ -1,5 +1,5 @@
 using WeatherApp.Adapters;
-using WeatherApp.HoistedServices;
+using WeatherApp.HostedServices;
 using WeatherApp.Repozitories;
 using WeatherApp.Services;
 using WeatherApp.Validators;
@@ -15,7 +15,6 @@ builder.Services.AddSwaggerGen();
 
 // In-Memory Database
 builder.Services.AddSingleton<IInMemoryDb, InMemoryDb>();
-builder.Services.AddHostedService<InMemoryDbInitHostedService>();
 
 // Adapters
 builder.Services.AddScoped<ICityDataAdapter, CityDataAdapter>();
@@ -28,6 +27,8 @@ builder.Services.AddScoped<IDataBaseService, DataBaseInMemoryService>();
 
 // Validators
 builder.Services.AddScoped<ICityDataValidator, CityDataValidator>();
+
+builder.Services.AddHostedService<InMemoryDbInitHostedService>();
 
 var app = builder.Build();
 
