@@ -45,27 +45,4 @@ namespace WeatherApp.Models
             AvgTemperature = TemperatureSum / TemperatureCount;
         }
     }
-
-    public static class CityDataExtensions
-    {
-        public static CityDataViewModel ToViewModel(this CityData model)
-        {
-            return new()
-            {
-                Name = model.Name,  
-                AverageTemperature = model.AvgTemperature,
-                MinTemperature = model.MinTemperature,
-                MaxTemperature = model.MaxTemperature,
-            };
-        }
-
-        public static CityDataAverageTemperatureViewModel ToAverageTemperatureViewModel(this CityData model)
-        {
-            return new()
-            {
-                Name = model.Name,
-                AverageTemperature = model.AvgTemperature
-            };
-        }
-    }
 }

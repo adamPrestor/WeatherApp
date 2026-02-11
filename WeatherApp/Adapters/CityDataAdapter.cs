@@ -1,4 +1,5 @@
 ﻿using WeatherApp.Models;
+using WeatherApp.Models.Extensions;
 using WeatherApp.ViewModels;
 
 namespace WeatherApp.Adapters
@@ -46,7 +47,7 @@ namespace WeatherApp.Adapters
             return cityData.ToViewModel();
         }
 
-        public IEnumerable<CityDataViewModel> ToViewModel(IEnumerable<CityData> cityDataEnumerable)
+        public IEnumerable<CityDataViewModel> ToViewModel(IEnumerable<CityData> cityDataEnumerable) 
         {
             return cityDataEnumerable.Select(ToViewModel);
         }

@@ -1,18 +1,20 @@
-﻿namespace WeatherApp.HoistedServices
+﻿using WeatherApp.Services;
+
+namespace WeatherApp.HoistedServices
 {
     public class InMemoryDbInitHostedService : IHostedService
     {
-        readonly IInMemoryDb _db;
+        readonly IDataBaseService _dataBaseService;
 
-        public InMemoryDbInitHostedService(IInMemoryDb db)
+        public InMemoryDbInitHostedService(IDataBaseService dataBaseService)
         {
-            _db = db;
+            _dataBaseService = dataBaseService;
         }
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             Console.WriteLine("Initializing database...");
-            await _db.Fetch();
+            await _dataBaseService.Fetch();
             Console.WriteLine("Finished initializing database...");
         }
 

@@ -1,6 +1,7 @@
 using WeatherApp.Adapters;
 using WeatherApp.HoistedServices;
 using WeatherApp.Repozitories;
+using WeatherApp.Services;
 using WeatherApp.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -16,9 +17,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddSingleton<IInMemoryDb, InMemoryDb>();
 builder.Services.AddHostedService<InMemoryDbInitHostedService>();
 
-// Repozitories
-builder.Services.AddScoped<ICityDataRepozitory, CityDataRepozitory>();
+// Adapters
 builder.Services.AddScoped<ICityDataAdapter, CityDataAdapter>();
+
+// Repozitories
+builder.Services.AddScoped<ICityDataRepozitory, CityDataInMemoryRepozitory>();
+
+// Services
+builder.Services.AddScoped<IDataBaseService, DataBaseInMemoryService>();
+
+// Validators
 builder.Services.AddScoped<ICityDataValidator, CityDataValidator>();
 
 var app = builder.Build();

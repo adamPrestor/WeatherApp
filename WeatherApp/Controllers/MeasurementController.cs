@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using WeatherApp.Services;
 
 namespace WeatherApp.Controllers
 {
@@ -6,17 +7,17 @@ namespace WeatherApp.Controllers
     [ApiController]
     public class MeasurementController : ControllerBase
     {
-        readonly IInMemoryDb _db;
+        readonly IDataBaseService _dataBaseService;
 
-        public MeasurementController(IInMemoryDb db)
+        public MeasurementController(IDataBaseService dataBaseService)
         {
-            _db = db;
+            _dataBaseService = dataBaseService;
         }
 
         [HttpGet("Recalculate")]
         async public Task Recalculate() 
         {
-            await _db.Fetch();
+            await _dataBaseService.Fetch();
         }
     }
 }
